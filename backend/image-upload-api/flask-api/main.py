@@ -1,8 +1,7 @@
-import os
-import urllib.request
+
 from app import app
 from flask import Flask, request, redirect, jsonify
-from werkzeug.utils import secure_filename
+
 
 # Allowed file types
 ALLOWED_EXTENSIONS = set(['jpeg','png','jpg'])
