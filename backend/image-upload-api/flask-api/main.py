@@ -29,10 +29,7 @@ def image_upload():
 
     # Correct request
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        # Won't actually need to save it to a folder
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        resp = jsonify({'message' : 'Image successfully uploaded'})
+        resp = jsonify({'message' : 'Success!'})
         resp.status_code = 201
         return resp
 
