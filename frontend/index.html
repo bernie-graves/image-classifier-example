@@ -93,6 +93,7 @@
 
         var form = document.getElementById('photo_form2');
         var fileObj = form.inputGroupFile04.files[0];
+        // create a URL for fileObj to be used in an <img> tag
         const objectURL = URL.createObjectURL(fileObj);
         var template = `
             <img src=${objectURL}>
@@ -102,6 +103,10 @@
       }
 
       function sendPostRequest() {
+        // the goal here was to put the image being posted to the API into 
+        // form data so it can be submitted as multipart/form-data in the post
+        // request. Haven't gotten it to work and not sure if this is the correct
+        // way to go about this.
         let formData = new FormData();
         var form = document.getElementById('photo_form2');
         var file = form.inputGroupFile04.files[0];
