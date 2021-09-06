@@ -70,7 +70,7 @@
             <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
               aria-label="Upload">
             <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04"
-              onclick="getCharacterInfo()">Submit</button>
+              onclick="sendPostRequest()">Submit</button>
         </form>
       </div>
 
@@ -89,28 +89,33 @@
     <script type="text/javascript">
       var httpRequest = new XMLHttpRequest();
 
-      function testFunction() {
+      function getResponse() {
 
-        var form = document.getElementById('photo_form2')
+        var form = document.getElementById('photo_form2');
         var fileObj = form.inputGroupFile04.files[0];
         const objectURL = URL.createObjectURL(fileObj);
         var template = `
             <img src=${objectURL}>
             `
         document.getElementById("test_image").innerHTML = template;
-        document.getElementById('char_info').innerHTML = httpRequest.response
+        document.getElementById('char_info').innerHTML = httpRequest.response;
       }
 
-      function getCharacterInfo() {
-        var characterIndex = Math.floor(Math.random() * 50);
+      function sendPostRequest() {
+        let formData = new FormData();
+        var form = document.getElementById('photo_form2');
+        var file = form.inputGroupFile04.files[0];
+        formData.append('file', file);
+        console.log(formData.get('file'))
 
         if (!httpRequest) {
           alert('Giving up :( Cannot create an XMLHTTP instance');
           return false;
         }
-        httpRequest.onreadystatechange = testFunction;
-        httpRequest.open('GET', 'https://swapi.dev/api/people/' + characterIndex);
-        httpRequest.send();
+        httpRequest.onreadystatechange = getResponse;
+        httpRequest.open('POST', 'http://127.0.0.1:5000/image-upload');
+        httpRequest.setRequestHeader('Content-Type', 'multipart/form-data');
+        httpRequest.send(formData);
       }
     </script>
 
