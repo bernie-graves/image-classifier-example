@@ -20,7 +20,7 @@ jobs:
       run: |
         cd backend/image-upload-api
         python -m venv venv
-        souce venv/bin/activate
+        source venv/bin/activate
         
         pip install -r requirements.txt
         pip install pylint
