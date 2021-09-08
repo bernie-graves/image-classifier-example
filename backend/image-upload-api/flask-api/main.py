@@ -1,7 +1,9 @@
-
+# Imports
 from app import app
 from flask import Flask, request, redirect, jsonify
 
+import pickle
+import os
 
 # Allowed file types
 ALLOWED_EXTENSIONS = set(['jpeg','png','jpg'])
@@ -36,6 +38,12 @@ def image_upload():
         resp = jsonify({'message': 'Allowed file types are jpeg, png, jpg'})
         resp.status_code = 400
         return resp
+# Deserialization ---------------------------------------------------------------------------------
+
+model = open('./notebooks/models/'+'2021-09-04-SVC.pkl','rb')
+new_dict = pickle.load(model)
+model.close()
+print(new_dict)
 
 # Start Flask App
 if __name__ == "__main__":
