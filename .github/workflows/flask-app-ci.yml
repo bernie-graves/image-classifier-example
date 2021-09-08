@@ -1,0 +1,33 @@
+name: CI for Flask app
+
+on:
+  pull_request:
+
+jobs:
+  pylint:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+        
+    - name: Install dependencies
+      run: |
+        cd backend/image-upload-api
+        pip install -r requirements.txt
+        pip install pylint
+        
+    - name: Analysing the code with pylint
+      run: |
+        pylint backend
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "TODO: Once we have unit tests, they can be run here."
