@@ -1,11 +1,11 @@
+import json
+import numpy as np
 from app import app
 from flask import request, jsonify, send_from_directory
-import numpy as np
-import json
-from PIL import Image,  ImageOps
+from PIL import Image, ImageOps
 from tensorflow.keras.models import model_from_json
 
-# Allowed file types for the 
+# Allowed file types for the
 ALLOWED_EXTENSIONS = set(['jpeg', 'png', 'jpg'])
 
 # File extension must be from ALLOWED_EXTENSIONS
@@ -18,14 +18,14 @@ with open("./notebooks/models/2021-09-06-keras.json", "r") as json_file:
 
 model_test = model_from_json(json_model)
 
-# Some functions for resp 
+# Some functions for resp
 def result(array):
     '''
     Given the prediciton array from the model, this method returns the predicted label.
     '''
     if array[0][0] > array[0][1]:
         return 'genuine'
-    elif array[0][0] < array[0][1]:
+    if array[0][0] < array[0][1]:
         return 'forged'
     else:
         return 'unable to determine'
@@ -36,20 +36,25 @@ def result_percentage(array):
     '''
     if array[0][0] > array[0][1]:
         return "{:.2f}".format(array[0][0] * 100)
-    elif array[0][0] < array[0][1]:
+    if array[0][0] < array[0][1]:
         return "{:.2f}".format(array[0][1] * 100)
     else:
         return 'unable to determine'
 
-# serving index.html on flask 
-@app.route('/')  # routing it to the home page
+# serving index.html on flask
+@app.route('/')
 def home():
+    '''
+    This function creates a URL route for index.html.
+    '''
     return send_from_directory('frontend', 'index.html')
 
-# API to validate the Image file 
+# API to validate the Image file
 @app.route('/image-upload', methods=["POST"])
 def image_upload():
-    # Handler for no file part in request
+    '''
+    This function creates an API for handeling image uploading.
+    '''
     if 'file' not in request.files:
         resp = jsonify({'message': 'No file part in the request'})
         resp.status_code = 400
@@ -76,7 +81,7 @@ def image_upload():
         resp = jsonify({
             'predicted-label':  str(result(prediction)),
             "prediction-confidence-percentage": str(result_percentage(prediction))
-            })        
+            })
         resp.status_code = 201
         return resp
     else:
