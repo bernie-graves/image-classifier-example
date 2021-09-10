@@ -10,6 +10,9 @@ ALLOWED_EXTENSIONS = set(['jpeg', 'png', 'jpg'])
 
 # File extension must be from ALLOWED_EXTENSIONS
 def allowed_file(filename):
+    '''
+    This function checks if the uploaded file has the correct extensions.
+    '''
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Deserialize the json file and create the model
@@ -27,8 +30,7 @@ def result(array):
         return 'genuine'
     if array[0][0] < array[0][1]:
         return 'forged'
-    else:
-        return 'unable to determine'
+    return 'unable to determine'
 
 def result_percentage(array):
     '''
@@ -38,8 +40,7 @@ def result_percentage(array):
         return "{:.2f}".format(array[0][0] * 100)
     if array[0][0] < array[0][1]:
         return "{:.2f}".format(array[0][1] * 100)
-    else:
-        return 'unable to determine'
+    return 'unable to determine'
 
 # serving index.html on flask
 @app.route('/')
@@ -53,7 +54,7 @@ def home():
 @app.route('/image-upload', methods=["POST"])
 def image_upload():
     '''
-    This function creates an API for handeling image uploading.
+    This function creates an API to handele image uploading.
     '''
     if 'file' not in request.files:
         resp = jsonify({'message': 'No file part in the request'})
@@ -84,10 +85,10 @@ def image_upload():
             })
         resp.status_code = 201
         return resp
-    else:
-        resp = jsonify({'message': 'Allowed file types are jpeg, png, jpg'})
-        resp.status_code = 400
-        return resp
+
+    resp = jsonify({'message': 'Allowed file types are jpeg, png, jpg'})
+    resp.status_code = 400
+    return resp
 
 # Start Flask App
 if __name__ == "__main__":
