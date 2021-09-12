@@ -5,7 +5,7 @@ from flask import request, jsonify, send_from_directory
 from PIL import Image, ImageOps
 from tensorflow.keras.models import model_from_json
 
-# Allowed file types for the
+# Allowed file types for the image
 ALLOWED_EXTENSIONS = set(['jpeg', 'png', 'jpg'])
 
 # File extension must be from ALLOWED_EXTENSIONS
