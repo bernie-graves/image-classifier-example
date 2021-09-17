@@ -147,7 +147,7 @@
           return false;
         }
         httpRequest.onreadystatechange = getResponse;
-        httpRequest.open('POST', 'http://127.0.0.1:5000/image-upload');
+        httpRequest.open('POST', 'https://image-classifier-app.azurewebsites.net/image-upload');
         // Do not set Content-Type, allow the browser to set it for you
         httpRequest.send(formData);
       }
