@@ -66,11 +66,11 @@
       </div>
 
       <div class="col-xs-4 col-xs-offset-4">
-        <form name='photo_form2' id='photo_form2' method='GET' action="">
-            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
+        <form name='photo_form' id='photo_form' method='GET' action="">
+            <input type="file" class="form-control" id="fileUpload" aria-describedby="fileUpload"
               aria-label="Upload">
-            <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04"
-              onclick="sendPostRequest()">Submit</button>
+            <button class="btn btn-outline-secondary" type="button" id="submitButton"
+              onclick="sendPostRequest()" disabled>Submit</button>
         </form>
       </div>
 
@@ -81,7 +81,7 @@
       </div>
     </div>
     <div id='char_info'>
-      <p>No character selected</p>
+      <p>No api responses</p>
     </div>
 
 
@@ -89,10 +89,42 @@
     <script type="text/javascript">
       var httpRequest = new XMLHttpRequest();
 
+      $(document).ready(function(){
+
+        // image validation - checking file size and image type
+        $("#fileUpload").change(function(){
+          // Get image from form
+          // FIXME: refactor this into a function 
+          // this code is used a lot could make code more readable
+          var form = document.getElementById('photo_form');
+          var file = form.fileUpload.files[0];
+          var sizeKB = file['size'] / 1000;
+          
+          // if size too big, reset form
+          // this leaves button disbaled and removes the file inputted
+          if(sizeKB > 1000000) {
+            document.getElementById('photo_form').reset();
+            alert('please select an image less than 1GB');
+          }
+          else if(file['type'] != 'image/jpeg' && file['type'] != 'image/png'){
+            document.getElementById('photo_form').reset();
+            alert('please select a png or jpg file');
+          }
+          else if($('#fileUpload').val()==''){
+            $('#submitButton').attr('disabled',true)
+          } 
+          else{
+            $('#submitButton').attr('disabled',false);
+          }
+
+        })
+
+      }); 
+
       function getResponse() {
 
-        var form = document.getElementById('photo_form2');
-        var fileObj = form.inputGroupFile04.files[0];
+        var form = document.getElementById('photo_form');
+        var fileObj = form.fileUpload.files[0];
         // create a URL for fileObj to be used in an <img> tag
         const objectURL = URL.createObjectURL(fileObj);
         var template = `
@@ -103,13 +135,10 @@
       }
 
       function sendPostRequest() {
-        // the goal here was to put the image being posted to the API into 
-        // form data so it can be submitted as multipart/form-data in the post
-        // request. Haven't gotten it to work and not sure if this is the correct
-        // way to go about this.
+        // putting the image into a FormData() object
         let formData = new FormData();
-        var form = document.getElementById('photo_form2');
-        var file = form.inputGroupFile04.files[0];
+        var form = document.getElementById('photo_form');
+        var file = form.fileUpload.files[0];
         formData.append('file', file);
         console.log(formData.get('file'))
 
