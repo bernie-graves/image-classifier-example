@@ -1,10 +1,11 @@
 # Signature Classifier
 
-<p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="Images/shiny_R_logo.png" alt="Logo" width="400" height="200">
-  </a>
+<p align='center'>
+  <img src="Images/python_logo.jpeg" width="100" />
+  <img src="Images/tf_logo.png" width="100" /> 
+  <img src="Images/flask_logo.png" width="100" />
 </p>
+
 
 <details open="open">
   <summary>Table of Contents</summary>
