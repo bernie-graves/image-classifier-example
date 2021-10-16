@@ -53,7 +53,31 @@ In order to only run the project locally you will only need a GitHub account:
 ## Details
 ### The Model
 
+#### Image pre-processing
+1. First we researched the different softwares used to process image data (ex.scikit-learn, tensorflow-keras) 
+Import the packages for keras from tensorflow
+2. Next was writing the file path to access the images in the dataset
+3. Convert all images to color (some are black and white)
+4. Convert each individual image to a numpy array
+5. Append each image and their label (forged/genuine) to their respective lists
+6. To create more image data, we used image augmentations (color inversion, change contrast, gamma correction, logarithmic correction, sigmoid correction) *repeat steps 4-5 for each augmentation
+7. Convert the lists containing the image data and labels (image_data, labels) to numpy arrays
+8. Shuffle the image data and their respective labels randomly
+9. (optional) Create a function called drawImg(img) which visualizes the images, and checks that image augmentation was correctly applied
 
+#### Keras Classification
+1. Create a Sequential model and research appropriate layers to add (Conv2D, MaxPooling2D, Dropout, Flatten, Dense)
+2. Split the image data and their labels into training and testing sets (we used a test size of 0.8)
+3. Compile the model, research optimizer, loss and metrics beforehand
+4. Fit the model, set epochs (we used 15)
+5. Print the test accuracy of the model (we got 0.622)
+
+#### Serialization
+1. Create a json string for the model
+2. Write the model as a json string to a json file
+3. Dump the string to preview, check if it wrote correctly
+#### Deserialization
+1. Open the json file with read access, print to check if it deserialized correctly
 
 ### Backend
 
